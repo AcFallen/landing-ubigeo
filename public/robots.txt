@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ubigeo.example.com/sitemap-index.xml
+Sitemap: https://ubigeo.org.pe/sitemap-index.xml
