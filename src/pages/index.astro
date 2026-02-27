@@ -1,12 +1,2159 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
 import "../styles/global.css";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const BASE_URL = "https://kmoxd00ic1.execute-api.us-east-1.amazonaws.com";
 ---
 
 <Layout>
-	<Welcome />
+  <div id="app">
+
+    <!-- ═══════════ TOPBAR ═══════════ -->
+    <header id="topbar">
+      <div class="topbar-left">
+        <button id="menu-toggle" aria-label="Abrir menú de navegación">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+        <div class="flag-icon">
+          <span class="f-red"></span>
+          <span class="f-white"></span>
+          <span class="f-red"></span>
+        </div>
+        <span class="brand">Ubigeo <strong>Perú</strong></span>
+        <span class="api-pill">API</span>
+        <span class="version-pill">v1.0</span>
+      </div>
+      <div class="topbar-right">
+        <span class="free-tag">✦ Gratuita · Sin auth</span>
+        <a
+          href="https://github.com"
+          class="gh-link"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2Z"/>
+          </svg>
+          GitHub
+        </a>
+      </div>
+    </header>
+
+    <div id="body-layout">
+      <div id="sidebar-overlay"></div>
+
+      <!-- ═══════════ SIDEBAR ═══════════ -->
+      <aside id="sidebar">
+        <div class="sidebar-brand">
+          <div class="sb-title">Documentación</div>
+          <div class="sb-url">{BASE_URL}</div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <div class="nav-group">
+            <div class="nav-group-label">Inicio</div>
+            <a href="#intro" class="nav-item" data-section="intro">
+              <span class="nav-dot"></span>
+              Introducción
+            </a>
+            <a href="#response-codes" class="nav-item" data-section="response-codes">
+              <span class="nav-dot"></span>
+              Códigos de respuesta
+            </a>
+          </div>
+
+          <div class="nav-group">
+            <div class="nav-group-label">Endpoints</div>
+
+            <a href="#ep-departamentos" class="nav-item" data-section="ep-departamentos">
+              <span class="nav-badge get">GET</span>
+              <span>/departamentos</span>
+            </a>
+
+            <a href="#ep-departamento" class="nav-item" data-section="ep-departamento">
+              <span class="nav-badge get">GET</span>
+              <span>/departamentos/{'{code}'}</span>
+            </a>
+
+            <a href="#ep-provincia" class="nav-item" data-section="ep-provincia">
+              <span class="nav-badge get">GET</span>
+              <span>/provincias/{'{code}'}</span>
+            </a>
+
+            <a href="#ep-distrito" class="nav-item" data-section="ep-distrito">
+              <span class="nav-badge get">GET</span>
+              <span>/distritos/{'{code}'}</span>
+            </a>
+
+            <a href="#ep-buscar" class="nav-item" data-section="ep-buscar">
+              <span class="nav-badge get">GET</span>
+              <span>/buscar</span>
+            </a>
+          </div>
+        </nav>
+
+        <div class="sidebar-footer">
+          <div class="flag-footer">
+            <div class="ff-stripe red"></div>
+            <div class="ff-stripe white"></div>
+            <div class="ff-stripe red"></div>
+          </div>
+          <span>Perú · 2025</span>
+        </div>
+      </aside>
+
+      <!-- ═══════════ MAIN CONTENT ═══════════ -->
+      <main id="main-content">
+
+        <!-- ── INTRO ── -->
+        <section id="intro" class="content-section">
+          <div class="intro-hero">
+            <div class="intro-eyebrow">
+              <span class="eyebrow-dot"></span>
+              API REST · Gratuita · Sin autenticación
+            </div>
+            <h1 class="intro-title">Ubigeo <span class="text-red">Perú</span> API</h1>
+            <p class="intro-desc">
+              Consulta la división político-administrativa del Perú en tiempo real.
+              Accede a los <strong>25 departamentos</strong>, <strong>196 provincias</strong> y
+              <strong>1 874 distritos</strong> del país con una simple petición HTTP.
+            </p>
+
+            <div class="base-url-box">
+              <span class="bub-label">Base URL</span>
+              <div class="bub-row">
+                <code id="base-url-text">{BASE_URL}</code>
+                <button class="copy-btn" data-copy={BASE_URL}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  Copiar
+                </button>
+              </div>
+            </div>
+
+            <div class="stats-row">
+              <div class="stat-card">
+                <div class="stat-num">25</div>
+                <div class="stat-lbl">Departamentos</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-num">196</div>
+                <div class="stat-lbl">Provincias</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-num">1 874</div>
+                <div class="stat-lbl">Distritos</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-num red-num">0</div>
+                <div class="stat-lbl">Auth requerida</div>
+              </div>
+            </div>
+
+            <div class="quick-example">
+              <div class="qe-label">Ejemplo rápido</div>
+              <div class="terminal">
+                <div class="terminal-header">
+                  <span class="t-dot red"></span>
+                  <span class="t-dot yellow"></span>
+                  <span class="t-dot green"></span>
+                  <span class="t-title">bash</span>
+                </div>
+                <pre class="terminal-body"><code><span class="t-comment"># Obtener todos los departamentos</span>
+curl <span class="t-string">"{BASE_URL}/departamentos"</span>
+
+<span class="t-comment"># Buscar por nombre</span>
+curl <span class="t-string">"{BASE_URL}/buscar?q=miraflores"</span></code></pre>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- DIVIDER -->
+        <div class="section-divider"></div>
+
+        <!-- ═══════════ ENDPOINT 1: GET /departamentos ═══════════ -->
+        <section id="ep-departamentos" class="content-section endpoint-section">
+          <div class="ep-header">
+            <span class="method-badge get">GET</span>
+            <code class="ep-path">/departamentos</code>
+          </div>
+          <h2 class="ep-title">Listar todos los departamentos</h2>
+          <p class="ep-desc">
+            Retorna la lista completa de los <strong>25 departamentos</strong> del Perú,
+            ordenados por código. Cada elemento incluye el código de 2 dígitos y el nombre oficial.
+          </p>
+
+          <div class="ep-meta">
+            <div class="meta-item">
+              <span class="meta-key">URL completa</span>
+              <code class="meta-val">{BASE_URL}/departamentos</code>
+            </div>
+            <div class="meta-item">
+              <span class="meta-key">Autenticación</span>
+              <span class="meta-val no-auth">Ninguna</span>
+            </div>
+          </div>
+
+          <!-- Tester -->
+          <div class="tester-box">
+            <div class="tester-header">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+              Probar endpoint
+            </div>
+            <div class="tester-body">
+              <div class="url-bar">
+                <span class="url-method get">GET</span>
+                <div class="url-display">
+                  <span id="url-dep-list">{BASE_URL}/departamentos</span>
+                </div>
+                <button class="send-btn" data-endpoint="dep-list">
+                  Enviar
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </button>
+              </div>
+              <div class="response-panel hidden" id="resp-dep-list">
+                <div class="resp-header">
+                  <span class="resp-status" id="status-dep-list"></span>
+                  <span class="resp-time" id="time-dep-list"></span>
+                  <button class="copy-resp-btn" data-target="body-dep-list">Copiar</button>
+                </div>
+                <div class="resp-loading hidden" id="loading-dep-list">
+                  <div class="spinner"></div>
+                  <span>Enviando petición...</span>
+                </div>
+                <pre class="resp-body" id="body-dep-list"></pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- Example response -->
+          <div class="example-section">
+            <div class="example-label">Ejemplo de respuesta · <span class="status-ok">200 OK</span></div>
+            <pre class="code-block"><code class="json">[
+  {"{"}  "codigo": "01",  "nombre": "AMAZONAS"  {"}"},
+  {"{"}  "codigo": "02",  "nombre": "ANCASH"     {"}"},
+  {"{"}  "codigo": "03",  "nombre": "APURIMAC"   {"}"},
+  {"{"}  "codigo": "04",  "nombre": "AREQUIPA"   {"}"},
+  {"{"}  "codigo": "14",  "nombre": "LAMBAYEQUE" {"}"},
+  {"{"}  "codigo": "15",  "nombre": "LIMA"        {"}"},
+  <span class="code-comment">// ... 25 departamentos en total</span>
+]</code></pre>
+          </div>
+
+          <div class="response-fields">
+            <div class="rf-title">Campos de la respuesta</div>
+            <table class="fields-table">
+              <thead>
+                <tr><th>Campo</th><th>Tipo</th><th>Descripción</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><code>codigo</code></td><td><span class="type-pill">string</span></td><td>Código del departamento (2 dígitos)</td></tr>
+                <tr><td><code>nombre</code></td><td><span class="type-pill">string</span></td><td>Nombre oficial del departamento en mayúsculas</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- ═══════════ ENDPOINT 2: GET /departamentos/{code} ═══════════ -->
+        <section id="ep-departamento" class="content-section endpoint-section">
+          <div class="ep-header">
+            <span class="method-badge get">GET</span>
+            <code class="ep-path">/departamentos/<span class="path-param">{'{code}'}</span></code>
+          </div>
+          <h2 class="ep-title">Obtener departamento por código</h2>
+          <p class="ep-desc">
+            Retorna la información detallada de un departamento específico junto con
+            la lista de sus <strong>provincias</strong>.
+          </p>
+
+          <div class="ep-meta">
+            <div class="meta-item">
+              <span class="meta-key">URL completa</span>
+              <code class="meta-val">{BASE_URL}/departamentos/<span class="path-param">{'{code}'}</span></code>
+            </div>
+          </div>
+
+          <div class="params-section">
+            <div class="params-label">Parámetros de ruta</div>
+            <table class="params-table">
+              <thead>
+                <tr><th>Parámetro</th><th>Tipo</th><th>Requerido</th><th>Descripción</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code class="param-name">code</code></td>
+                  <td><span class="type-pill">string</span></td>
+                  <td><span class="required-pill">Sí</span></td>
+                  <td>Código del departamento (2 dígitos). Ej: <code>15</code> para Lima</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Tester -->
+          <div class="tester-box">
+            <div class="tester-header">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+              Probar endpoint
+            </div>
+            <div class="tester-body">
+              <div class="input-group">
+                <label class="param-label">
+                  <span class="param-label-name">code</span>
+                  <span class="param-required">requerido</span>
+                </label>
+                <input
+                  type="text"
+                  id="input-dep-code"
+                  class="param-input"
+                  placeholder="Ej: 15"
+                  maxlength="2"
+                />
+                <span class="param-hint">Código de 2 dígitos — 01 a 25</span>
+              </div>
+              <div class="url-bar">
+                <span class="url-method get">GET</span>
+                <div class="url-display">
+                  <span id="url-dep-code">{BASE_URL}/departamentos/<span class="url-param">{'{code}'}</span></span>
+                </div>
+                <button class="send-btn" data-endpoint="dep-code">
+                  Enviar
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </button>
+              </div>
+              <div class="response-panel hidden" id="resp-dep-code">
+                <div class="resp-header">
+                  <span class="resp-status" id="status-dep-code"></span>
+                  <span class="resp-time" id="time-dep-code"></span>
+                  <button class="copy-resp-btn" data-target="body-dep-code">Copiar</button>
+                </div>
+                <div class="resp-loading hidden" id="loading-dep-code">
+                  <div class="spinner"></div>
+                  <span>Enviando petición...</span>
+                </div>
+                <pre class="resp-body" id="body-dep-code"></pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="example-section">
+            <div class="example-label">Ejemplo de respuesta · <span class="status-ok">200 OK</span> · <code>code=15</code></div>
+            <pre class="code-block"><code class="json">{"{"}}
+  "codigo": "15",
+  "nombre": "LIMA",
+  "provincias": [
+    {"{"} "codigo": "1501", "nombre": "LIMA"       {"}"},
+    {"{"} "codigo": "1502", "nombre": "BARRANCA"   {"}"},
+    {"{"} "codigo": "1503", "nombre": "CAJATAMBO"  {"}"},
+    {"{"} "codigo": "1504", "nombre": "CANTA"      {"}"},
+    <span class="code-comment">// ... todas las provincias del departamento</span>
+  ]
+{"}"}</code></pre>
+          </div>
+
+          <div class="example-section error">
+            <div class="example-label">Respuesta de error · <span class="status-err">404 Not Found</span></div>
+            <pre class="code-block"><code class="json">{"{"} "error": "Departamento '99' no encontrado" {"}"}</code></pre>
+          </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- ═══════════ ENDPOINT 3: GET /provincias/{code} ═══════════ -->
+        <section id="ep-provincia" class="content-section endpoint-section">
+          <div class="ep-header">
+            <span class="method-badge get">GET</span>
+            <code class="ep-path">/provincias/<span class="path-param">{'{code}'}</span></code>
+          </div>
+          <h2 class="ep-title">Obtener provincia por código</h2>
+          <p class="ep-desc">
+            Retorna la información de una provincia específica, incluyendo su
+            departamento padre y la lista completa de sus <strong>distritos</strong>.
+          </p>
+
+          <div class="ep-meta">
+            <div class="meta-item">
+              <span class="meta-key">URL completa</span>
+              <code class="meta-val">{BASE_URL}/provincias/<span class="path-param">{'{code}'}</span></code>
+            </div>
+          </div>
+
+          <div class="params-section">
+            <div class="params-label">Parámetros de ruta</div>
+            <table class="params-table">
+              <thead>
+                <tr><th>Parámetro</th><th>Tipo</th><th>Requerido</th><th>Descripción</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code class="param-name">code</code></td>
+                  <td><span class="type-pill">string</span></td>
+                  <td><span class="required-pill">Sí</span></td>
+                  <td>Código de la provincia (4 dígitos). Ej: <code>1501</code> para Lima</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Tester -->
+          <div class="tester-box">
+            <div class="tester-header">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+              Probar endpoint
+            </div>
+            <div class="tester-body">
+              <div class="input-group">
+                <label class="param-label">
+                  <span class="param-label-name">code</span>
+                  <span class="param-required">requerido</span>
+                </label>
+                <input
+                  type="text"
+                  id="input-prov-code"
+                  class="param-input"
+                  placeholder="Ej: 1501"
+                  maxlength="4"
+                />
+                <span class="param-hint">Código de 4 dígitos — primeros 2 = departamento</span>
+              </div>
+              <div class="url-bar">
+                <span class="url-method get">GET</span>
+                <div class="url-display">
+                  <span id="url-prov-code">{BASE_URL}/provincias/<span class="url-param">{'{code}'}</span></span>
+                </div>
+                <button class="send-btn" data-endpoint="prov-code">
+                  Enviar
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </button>
+              </div>
+              <div class="response-panel hidden" id="resp-prov-code">
+                <div class="resp-header">
+                  <span class="resp-status" id="status-prov-code"></span>
+                  <span class="resp-time" id="time-prov-code"></span>
+                  <button class="copy-resp-btn" data-target="body-prov-code">Copiar</button>
+                </div>
+                <div class="resp-loading hidden" id="loading-prov-code">
+                  <div class="spinner"></div>
+                  <span>Enviando petición...</span>
+                </div>
+                <pre class="resp-body" id="body-prov-code"></pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="example-section">
+            <div class="example-label">Ejemplo de respuesta · <span class="status-ok">200 OK</span> · <code>code=1501</code></div>
+            <pre class="code-block"><code class="json">{"{"}}
+  "codigo": "1501",
+  "nombre": "LIMA",
+  "departamento": {"{"} "codigo": "15", "nombre": "LIMA" {"}"},
+  "distritos": [
+    {"{"} "codigo": "150101", "nombre": "LIMA"       {"}"},
+    {"{"} "codigo": "150102", "nombre": "ANCON"      {"}"},
+    {"{"} "codigo": "150103", "nombre": "ATE"        {"}"},
+    {"{"} "codigo": "150118", "nombre": "MIRAFLORES" {"}"},
+    <span class="code-comment">// ... todos los distritos de la provincia</span>
+  ]
+{"}"}</code></pre>
+          </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- ═══════════ ENDPOINT 4: GET /distritos/{code} ═══════════ -->
+        <section id="ep-distrito" class="content-section endpoint-section">
+          <div class="ep-header">
+            <span class="method-badge get">GET</span>
+            <code class="ep-path">/distritos/<span class="path-param">{'{code}'}</span></code>
+          </div>
+          <h2 class="ep-title">Obtener distrito por código</h2>
+          <p class="ep-desc">
+            Retorna la información completa de un distrito: nombre, capital, región natural,
+            así como la provincia y departamento al que pertenece.
+          </p>
+
+          <div class="ep-meta">
+            <div class="meta-item">
+              <span class="meta-key">URL completa</span>
+              <code class="meta-val">{BASE_URL}/distritos/<span class="path-param">{'{code}'}</span></code>
+            </div>
+          </div>
+
+          <div class="params-section">
+            <div class="params-label">Parámetros de ruta</div>
+            <table class="params-table">
+              <thead>
+                <tr><th>Parámetro</th><th>Tipo</th><th>Requerido</th><th>Descripción</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code class="param-name">code</code></td>
+                  <td><span class="type-pill">string</span></td>
+                  <td><span class="required-pill">Sí</span></td>
+                  <td>Código del distrito (6 dígitos). Ej: <code>150118</code> para Miraflores</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Tester -->
+          <div class="tester-box">
+            <div class="tester-header">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+              Probar endpoint
+            </div>
+            <div class="tester-body">
+              <div class="input-group">
+                <label class="param-label">
+                  <span class="param-label-name">code</span>
+                  <span class="param-required">requerido</span>
+                </label>
+                <input
+                  type="text"
+                  id="input-dist-code"
+                  class="param-input"
+                  placeholder="Ej: 150118"
+                  maxlength="6"
+                />
+                <span class="param-hint">Código de 6 dígitos — dep(2) + prov(2) + dist(2)</span>
+              </div>
+              <div class="url-bar">
+                <span class="url-method get">GET</span>
+                <div class="url-display">
+                  <span id="url-dist-code">{BASE_URL}/distritos/<span class="url-param">{'{code}'}</span></span>
+                </div>
+                <button class="send-btn" data-endpoint="dist-code">
+                  Enviar
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </button>
+              </div>
+              <div class="response-panel hidden" id="resp-dist-code">
+                <div class="resp-header">
+                  <span class="resp-status" id="status-dist-code"></span>
+                  <span class="resp-time" id="time-dist-code"></span>
+                  <button class="copy-resp-btn" data-target="body-dist-code">Copiar</button>
+                </div>
+                <div class="resp-loading hidden" id="loading-dist-code">
+                  <div class="spinner"></div>
+                  <span>Enviando petición...</span>
+                </div>
+                <pre class="resp-body" id="body-dist-code"></pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="example-section">
+            <div class="example-label">Ejemplo de respuesta · <span class="status-ok">200 OK</span> · <code>code=150118</code></div>
+            <pre class="code-block"><code class="json">{"{"}}
+  "codigo":        "150118",
+  "nombre":        "MIRAFLORES",
+  "capital":       "MIRAFLORES",
+  "regionNatural": "COSTA",
+  "provincia":     {"{"} "codigo": "1501", "nombre": "LIMA" {"}"},
+  "departamento":  {"{"} "codigo": "15",   "nombre": "LIMA" {"}"}
+{"}"}</code></pre>
+          </div>
+
+          <div class="response-fields">
+            <div class="rf-title">Campos de la respuesta</div>
+            <table class="fields-table">
+              <thead>
+                <tr><th>Campo</th><th>Tipo</th><th>Descripción</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><code>codigo</code></td><td><span class="type-pill">string</span></td><td>Código UBIGEO del distrito (6 dígitos)</td></tr>
+                <tr><td><code>nombre</code></td><td><span class="type-pill">string</span></td><td>Nombre oficial del distrito</td></tr>
+                <tr><td><code>capital</code></td><td><span class="type-pill">string</span></td><td>Nombre de la capital del distrito</td></tr>
+                <tr><td><code>regionNatural</code></td><td><span class="type-pill">string</span></td><td><code>COSTA</code>, <code>SIERRA</code> o <code>SELVA</code></td></tr>
+                <tr><td><code>provincia</code></td><td><span class="type-pill">object</span></td><td>Provincia a la que pertenece (codigo, nombre)</td></tr>
+                <tr><td><code>departamento</code></td><td><span class="type-pill">object</span></td><td>Departamento al que pertenece (codigo, nombre)</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- ═══════════ ENDPOINT 5: GET /buscar ═══════════ -->
+        <section id="ep-buscar" class="content-section endpoint-section">
+          <div class="ep-header">
+            <span class="method-badge get">GET</span>
+            <code class="ep-path">/buscar</code>
+          </div>
+          <h2 class="ep-title">Buscar por nombre</h2>
+          <p class="ep-desc">
+            Búsqueda de texto libre sobre distritos, provincias y departamentos.
+            Soporta búsqueda multi-palabra (<strong>AND</strong>) y es insensible a tildes y mayúsculas.
+            Retorna el árbol completo: distrito → provincia → departamento.
+          </p>
+
+          <div class="ep-meta">
+            <div class="meta-item">
+              <span class="meta-key">URL completa</span>
+              <code class="meta-val">{BASE_URL}/buscar?q=<span class="path-param">{'{query}'}</span>&amp;limit=<span class="path-param">{'{n}'}</span></code>
+            </div>
+          </div>
+
+          <div class="params-section">
+            <div class="params-label">Query parameters</div>
+            <table class="params-table">
+              <thead>
+                <tr><th>Parámetro</th><th>Tipo</th><th>Requerido</th><th>Default</th><th>Descripción</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code class="param-name">q</code></td>
+                  <td><span class="type-pill">string</span></td>
+                  <td><span class="required-pill">Sí</span></td>
+                  <td>—</td>
+                  <td>Texto de búsqueda (mínimo 2 caracteres). Ej: <code>san isidro</code></td>
+                </tr>
+                <tr>
+                  <td><code class="param-name">limit</code></td>
+                  <td><span class="type-pill">number</span></td>
+                  <td><span class="optional-pill">No</span></td>
+                  <td><code>20</code></td>
+                  <td>Número máximo de resultados a retornar</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Tester -->
+          <div class="tester-box">
+            <div class="tester-header">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+              Probar endpoint
+            </div>
+            <div class="tester-body">
+              <div class="inputs-row">
+                <div class="input-group">
+                  <label class="param-label">
+                    <span class="param-label-name">q</span>
+                    <span class="param-required">requerido</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="input-buscar-q"
+                    class="param-input"
+                    placeholder="Ej: miraflores"
+                  />
+                  <span class="param-hint">Mínimo 2 caracteres</span>
+                </div>
+                <div class="input-group">
+                  <label class="param-label">
+                    <span class="param-label-name">limit</span>
+                    <span class="optional-pill small">opcional</span>
+                  </label>
+                  <input
+                    type="number"
+                    id="input-buscar-limit"
+                    class="param-input"
+                    placeholder="20"
+                    min="1"
+                    max="100"
+                  />
+                  <span class="param-hint">Default: 20, máx: 100</span>
+                </div>
+              </div>
+              <div class="url-bar">
+                <span class="url-method get">GET</span>
+                <div class="url-display">
+                  <span id="url-buscar">{BASE_URL}/buscar?q=<span class="url-param">{'{q}'}</span></span>
+                </div>
+                <button class="send-btn" data-endpoint="buscar">
+                  Enviar
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </button>
+              </div>
+              <div class="response-panel hidden" id="resp-buscar">
+                <div class="resp-header">
+                  <span class="resp-status" id="status-buscar"></span>
+                  <span class="resp-time" id="time-buscar"></span>
+                  <button class="copy-resp-btn" data-target="body-buscar">Copiar</button>
+                </div>
+                <div class="resp-loading hidden" id="loading-buscar">
+                  <div class="spinner"></div>
+                  <span>Enviando petición...</span>
+                </div>
+                <pre class="resp-body" id="body-buscar"></pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="example-section">
+            <div class="example-label">Ejemplo de respuesta · <span class="status-ok">200 OK</span> · <code>q=san isidro</code></div>
+            <pre class="code-block"><code class="json">{"{"}}
+  "query": "san isidro",
+  "total": 3,
+  "resultados": [
+    {"{"}}
+      "codigo":       "150131",
+      "nombre":       "SAN ISIDRO",
+      "provincia":    {"{"} "codigo": "1501", "nombre": "LIMA"      {"}"},
+      "departamento": {"{"} "codigo": "15",   "nombre": "LIMA"      {"}"}
+    {"}"},
+    {"{"}}
+      "codigo":       "040101",
+      "nombre":       "SAN ISIDRO",
+      "provincia":    {"{"} "codigo": "0401", "nombre": "AREQUIPA"  {"}"},
+      "departamento": {"{"} "codigo": "04",   "nombre": "AREQUIPA"  {"}"}
+    {"}"}
+    <span class="code-comment">// ...</span>
+  ]
+{"}"}</code></pre>
+          </div>
+
+          <div class="example-section error">
+            <div class="example-label">Respuesta de error · <span class="status-err">400 Bad Request</span></div>
+            <pre class="code-block"><code class="json">{"{"} "error": "El parámetro q debe tener al menos 2 caracteres" {"}"}</code></pre>
+          </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- ═══════════ RESPONSE CODES ═══════════ -->
+        <section id="response-codes" class="content-section">
+          <h2 class="ep-title">Códigos de respuesta</h2>
+          <p class="ep-desc">La API utiliza códigos HTTP estándar para indicar el resultado de cada petición.</p>
+
+          <div class="status-grid">
+            <div class="status-card ok">
+              <div class="sc-code">200</div>
+              <div class="sc-name">OK</div>
+              <div class="sc-desc">La petición fue exitosa. El cuerpo contiene los datos solicitados en formato JSON.</div>
+            </div>
+            <div class="status-card bad">
+              <div class="sc-code">400</div>
+              <div class="sc-name">Bad Request</div>
+              <div class="sc-desc">Parámetros inválidos. Ej: código con longitud incorrecta o query demasiado corta.</div>
+            </div>
+            <div class="status-card not-found">
+              <div class="sc-code">404</div>
+              <div class="sc-name">Not Found</div>
+              <div class="sc-desc">El recurso solicitado no existe. Ej: código de departamento o distrito inexistente.</div>
+            </div>
+            <div class="status-card server">
+              <div class="sc-code">500</div>
+              <div class="sc-name">Server Error</div>
+              <div class="sc-desc">Error interno del servidor. Intenta nuevamente en unos momentos.</div>
+            </div>
+          </div>
+
+          <div class="info-box">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <div>
+              <strong>Formato de error</strong><br/>
+              Todos los errores retornan un JSON con el campo <code>error</code>:
+              <code class="inline-code">{"{"} "error": "mensaje descriptivo" {"}"}</code>
+            </div>
+          </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="site-footer">
+          <div class="footer-flag">
+            <div class="ff-stripe red"></div>
+            <div class="ff-stripe white"></div>
+            <div class="ff-stripe red"></div>
+          </div>
+          <p>Ubigeo Perú API · Gratuita y de código abierto · Datos oficiales INEI</p>
+          <p class="footer-sub">Construida con ❤️ para los desarrolladores peruanos</p>
+        </footer>
+
+      </main>
+    </div>
+  </div>
 </Layout>
+
+<!-- ═══════════════════════════════ STYLES ═══════════════════════════════ -->
+<style>
+  /* ── Variables ── */
+  :root {
+    --red: #CE1126;
+    --red-dark: #A50D1D;
+    --red-light: #FFF0F2;
+    --red-border: #F8C0C8;
+    --sidebar-bg: #161618;
+    --sidebar-border: #2A2A2E;
+    --sidebar-text: #A1A1AA;
+    --sidebar-hover: rgba(206, 17, 38, 0.12);
+    --sidebar-active-border: var(--red);
+    --main-bg: #FFFFFF;
+    --surface: #F9FAFB;
+    --border: #E5E7EB;
+    --text-primary: #111827;
+    --text-secondary: #6B7280;
+    --text-muted: #9CA3AF;
+    --code-bg: #0D1117;
+    --code-text: #E6EDF3;
+    --get-color: #059669;
+    --get-bg: #D1FAE5;
+    --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+  }
+
+  /* ── Layout ── */
+  #app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  #body-layout {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  /* ── Topbar ── */
+  #topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    height: 56px;
+    background: var(--red);
+    color: white;
+    flex-shrink: 0;
+    z-index: 100;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.15);
+  }
+
+  .topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .flag-icon {
+    display: flex;
+    width: 24px;
+    height: 16px;
+    border-radius: 2px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .flag-icon .f-red { flex: 1; background: #CE1126; }
+  .flag-icon .f-white { flex: 1; background: #fff; }
+
+  .brand {
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.9);
+    letter-spacing: -0.01em;
+  }
+
+  .brand strong { font-weight: 700; }
+
+  .api-pill {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 999px;
+    letter-spacing: 0.06em;
+  }
+
+  .version-pill {
+    color: rgba(255,255,255,0.6);
+    font-size: 12px;
+  }
+
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .free-tag {
+    font-size: 12px;
+    color: rgba(255,255,255,0.75);
+    font-weight: 500;
+  }
+
+  .gh-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 5px 12px;
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 6px;
+    transition: all 0.15s;
+  }
+
+  .gh-link:hover {
+    background: rgba(255,255,255,0.12);
+    color: white;
+  }
+
+  /* ── Sidebar ── */
+  #sidebar {
+    width: 264px;
+    flex-shrink: 0;
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--sidebar-border);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar-brand {
+    padding: 20px 16px 16px;
+    border-bottom: 1px solid var(--sidebar-border);
+  }
+
+  .sb-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--sidebar-text);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .sb-url {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: #52525B;
+    word-break: break-all;
+    line-height: 1.4;
+  }
+
+  .sidebar-nav {
+    flex: 1;
+    padding: 12px 0;
+  }
+
+  .nav-group {
+    margin-bottom: 4px;
+  }
+
+  .nav-group-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #52525B;
+    padding: 8px 16px 4px;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 16px;
+    text-decoration: none;
+    color: var(--sidebar-text);
+    font-size: 13px;
+    border-left: 2px solid transparent;
+    transition: all 0.15s;
+    cursor: pointer;
+  }
+
+  .nav-item:hover {
+    background: var(--sidebar-hover);
+    color: #fff;
+    border-left-color: rgba(206,17,38,0.4);
+  }
+
+  .nav-item.active {
+    background: rgba(206,17,38,0.1);
+    color: #fff;
+    border-left-color: var(--red);
+  }
+
+  .nav-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #3F3F46;
+    flex-shrink: 0;
+  }
+
+  .nav-badge {
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 5px;
+    border-radius: 3px;
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
+  }
+
+  .nav-badge.get {
+    background: rgba(5,150,105,0.2);
+    color: #34D399;
+  }
+
+  .sidebar-footer {
+    padding: 16px;
+    border-top: 1px solid var(--sidebar-border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: #52525B;
+  }
+
+  .flag-footer, .footer-flag {
+    display: flex;
+    width: 20px;
+    height: 13px;
+    border-radius: 2px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .ff-stripe.red { flex: 1; background: var(--red); }
+  .ff-stripe.white { flex: 1; background: #fff; }
+
+  /* ── Main ── */
+  #main-content {
+    flex: 1;
+    overflow-y: auto;
+    background: var(--main-bg);
+  }
+
+  .content-section {
+    padding: 48px 56px;
+    max-width: 900px;
+  }
+
+  .section-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 0 56px;
+  }
+
+  /* ── Intro / Hero ── */
+  .intro-hero {
+    padding-bottom: 0;
+  }
+
+  .intro-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--red);
+    letter-spacing: 0.04em;
+    margin-bottom: 16px;
+  }
+
+  .eyebrow-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--red);
+  }
+
+  .intro-title {
+    font-size: 40px;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 16px;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+  }
+
+  .text-red { color: var(--red); }
+
+  .intro-desc {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin: 0 0 28px;
+    max-width: 600px;
+  }
+
+  .base-url-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 28px;
+    display: inline-flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 460px;
+  }
+
+  .bub-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+  }
+
+  .bub-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .bub-row code {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  .copy-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+
+  .copy-btn:hover {
+    border-color: var(--red);
+    color: var(--red);
+  }
+
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+  }
+
+  .stat-num {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .red-num { color: var(--red); }
+
+  .stat-lbl {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  /* ── Terminal ── */
+  .quick-example {
+    margin-bottom: 0;
+  }
+
+  .qe-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .terminal {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #30363D;
+  }
+
+  .terminal-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    background: #21262D;
+    border-bottom: 1px solid #30363D;
+  }
+
+  .t-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+
+  .t-dot.red { background: #FF5F57; }
+  .t-dot.yellow { background: #FEBC2E; }
+  .t-dot.green { background: #28C840; }
+
+  .t-title {
+    font-size: 11px;
+    color: #8B949E;
+    margin-left: auto;
+    font-family: var(--font-mono);
+  }
+
+  .terminal-body {
+    background: var(--code-bg);
+    margin: 0;
+    padding: 20px 24px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--code-text);
+    overflow-x: auto;
+  }
+
+  .t-comment { color: #8B949E; }
+  .t-string { color: #A5D6FF; }
+
+  /* ── Endpoint sections ── */
+  .ep-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .method-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 5px;
+    letter-spacing: 0.04em;
+  }
+
+  .method-badge.get {
+    background: var(--get-bg);
+    color: var(--get-color);
+    border: 1px solid #A7F3D0;
+  }
+
+  .ep-path {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    color: var(--text-primary);
+    font-weight: 500;
+    background: none;
+  }
+
+  .path-param {
+    color: var(--red);
+    font-style: italic;
+  }
+
+  .ep-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 10px;
+    letter-spacing: -0.02em;
+  }
+
+  .ep-desc {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--text-secondary);
+    margin: 0 0 24px;
+  }
+
+  /* ── Meta ── */
+  .ep-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 24px;
+  }
+
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+  }
+
+  .meta-key {
+    font-weight: 600;
+    color: var(--text-muted);
+    min-width: 110px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .meta-val {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-primary);
+  }
+
+  .no-auth {
+    font-family: inherit;
+    font-size: 13px;
+    color: var(--get-color);
+    font-weight: 600;
+  }
+
+  /* ── Params table ── */
+  .params-section {
+    margin-bottom: 24px;
+  }
+
+  .params-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+  }
+
+  .params-table, .fields-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .params-table th, .fields-table th {
+    background: var(--surface);
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 9px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .params-table td, .fields-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-secondary);
+    vertical-align: top;
+  }
+
+  .params-table tr:last-child td,
+  .fields-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .param-name {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-primary);
+    background: none;
+  }
+
+  .type-pill {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 2px 7px;
+    background: #EDE9FE;
+    color: #7C3AED;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+
+  .required-pill {
+    font-size: 11px;
+    padding: 2px 7px;
+    background: #FEF2F2;
+    color: var(--red);
+    border-radius: 4px;
+    font-weight: 600;
+  }
+
+  .optional-pill {
+    font-size: 11px;
+    padding: 2px 7px;
+    background: var(--surface);
+    color: var(--text-muted);
+    border-radius: 4px;
+    font-weight: 500;
+  }
+
+  .optional-pill.small { font-size: 10px; }
+
+  /* ── Tester ── */
+  .tester-box {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 28px;
+  }
+
+  .tester-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 16px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+
+  .tester-body {
+    padding: 16px;
+  }
+
+  .input-group {
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .inputs-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .param-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .param-label-name {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+  }
+
+  .param-hint {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .param-input {
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-primary);
+    background: white;
+    outline: none;
+    transition: border-color 0.15s;
+    width: 100%;
+  }
+
+  .param-input:focus {
+    border-color: var(--red);
+    box-shadow: 0 0 0 3px rgba(206,17,38,0.08);
+  }
+
+  .url-bar {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    background: white;
+    margin-top: 4px;
+  }
+
+  .url-method {
+    padding: 10px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
+    border-right: 1px solid var(--border);
+  }
+
+  .url-method.get {
+    background: var(--get-bg);
+    color: var(--get-color);
+  }
+
+  .url-display {
+    flex: 1;
+    padding: 10px 12px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-secondary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .url-param { color: var(--red); font-style: italic; }
+
+  .send-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 18px;
+    background: var(--red);
+    color: white;
+    border: none;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+    flex-shrink: 0;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .send-btn:hover { background: var(--red-dark); }
+
+  .send-btn:active { transform: scale(0.98); }
+
+  /* ── Response panel ── */
+  .response-panel {
+    margin-top: 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .response-panel.hidden { display: none; }
+
+  .resp-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+  }
+
+  .resp-status {
+    font-weight: 700;
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  .resp-status.ok {
+    background: #D1FAE5;
+    color: #065F46;
+  }
+
+  .resp-status.err {
+    background: #FEE2E2;
+    color: #991B1B;
+  }
+
+  .resp-time {
+    color: var(--text-muted);
+    margin-right: auto;
+    font-family: var(--font-mono);
+    font-size: 11px;
+  }
+
+  .copy-resp-btn {
+    padding: 3px 10px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .copy-resp-btn:hover {
+    border-color: var(--red);
+    color: var(--red);
+  }
+
+  .resp-loading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px;
+    font-size: 13px;
+    color: var(--text-muted);
+    background: var(--code-bg);
+  }
+
+  .resp-loading.hidden { display: none; }
+
+  .spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #333;
+    border-top-color: var(--red);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .resp-body {
+    background: var(--code-bg);
+    color: var(--code-text);
+    margin: 0;
+    padding: 16px;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    line-height: 1.65;
+    overflow-x: auto;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  /* JSON syntax highlight */
+  .resp-body .j-key { color: #79C0FF; }
+  .resp-body .j-str { color: #A5D6FF; }
+  .resp-body .j-num { color: #F78166; }
+  .resp-body .j-bool { color: #FF9E64; }
+  .resp-body .j-null { color: #A5D6FF; }
+
+  /* ── Example section ── */
+  .example-section {
+    margin-bottom: 16px;
+  }
+
+  .example-section.error .code-block {
+    border-color: #FCA5A5;
+  }
+
+  .example-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .status-ok { color: #059669; font-weight: 700; text-transform: none; letter-spacing: 0; }
+  .status-err { color: var(--red); font-weight: 700; text-transform: none; letter-spacing: 0; }
+
+  .code-block {
+    background: var(--code-bg);
+    border: 1px solid #30363D;
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: var(--code-text);
+    overflow-x: auto;
+  }
+
+  .code-comment { color: #8B949E; font-style: italic; }
+
+  /* ── Response fields ── */
+  .response-fields {
+    margin-top: 24px;
+  }
+
+  .rf-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+  }
+
+  /* ── Status codes section ── */
+  .status-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .status-card {
+    border-radius: 10px;
+    padding: 18px;
+    border: 1px solid transparent;
+  }
+
+  .status-card.ok { background: #F0FDF4; border-color: #BBF7D0; }
+  .status-card.bad { background: #FFFBEB; border-color: #FDE68A; }
+  .status-card.not-found { background: #FFF1F2; border-color: var(--red-border); }
+  .status-card.server { background: #F5F3FF; border-color: #DDD6FE; }
+
+  .sc-code {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 2px;
+  }
+
+  .status-card.ok .sc-code { color: #15803D; }
+  .status-card.bad .sc-code { color: #B45309; }
+  .status-card.not-found .sc-code { color: var(--red); }
+  .status-card.server .sc-code { color: #6D28D9; }
+
+  .sc-name {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--text-primary);
+  }
+
+  .sc-desc {
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--text-secondary);
+  }
+
+  .info-box {
+    display: flex;
+    gap: 12px;
+    padding: 14px 16px;
+    background: #EFF6FF;
+    border: 1px solid #BFDBFE;
+    border-radius: 8px;
+    font-size: 13px;
+    color: #1E40AF;
+    line-height: 1.6;
+  }
+
+  .info-box svg { flex-shrink: 0; margin-top: 2px; }
+
+  .inline-code {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    background: rgba(0,0,0,0.06);
+    padding: 1px 6px;
+    border-radius: 3px;
+  }
+
+  /* ── Footer ── */
+  .site-footer {
+    padding: 32px 56px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .site-footer p {
+    margin: 0;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .footer-sub { font-size: 12px !important; }
+
+  /* ── Scrollbar ── */
+  #sidebar::-webkit-scrollbar,
+  #main-content::-webkit-scrollbar { width: 6px; }
+  #sidebar::-webkit-scrollbar-track { background: transparent; }
+  #sidebar::-webkit-scrollbar-thumb { background: #2A2A2E; border-radius: 3px; }
+  #main-content::-webkit-scrollbar-track { background: transparent; }
+  #main-content::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 3px; }
+
+  code { font-family: var(--font-mono); }
+
+  /* ═══════════════════════════════════════
+     HAMBURGER BUTTON (hidden on desktop)
+  ═══════════════════════════════════════ */
+  #menu-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+    padding: 6px;
+    flex-shrink: 0;
+    transition: background 0.15s;
+  }
+
+  #menu-toggle:hover { background: rgba(255,255,255,0.25); }
+
+  /* ═══════════════════════════════════════
+     SIDEBAR OVERLAY (mobile backdrop)
+  ═══════════════════════════════════════ */
+  #sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 199;
+    backdrop-filter: blur(2px);
+  }
+
+  #sidebar-overlay.visible { display: block; }
+
+  /* ═══════════════════════════════════════
+     TABLET  (769px – 1024px)
+  ═══════════════════════════════════════ */
+  @media (max-width: 1024px) {
+    .content-section { padding: 36px 32px; max-width: 100%; }
+    .section-divider  { margin: 0 32px; }
+    .site-footer      { padding: 28px 32px; }
+    .stats-row        { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* ═══════════════════════════════════════
+     MOBILE  (≤ 768px)
+  ═══════════════════════════════════════ */
+  @media (max-width: 768px) {
+
+    /* ── Layout ── */
+    #app { height: 100dvh; }
+
+    /* ── Topbar ── */
+    #menu-toggle   { display: flex; }
+    .free-tag      { display: none; }
+    .version-pill  { display: none; }
+    #topbar        { padding: 0 16px; gap: 0; }
+    .topbar-left   { gap: 8px; }
+
+    /* ── Sidebar as slide-in drawer ── */
+    #sidebar {
+      position: fixed;
+      top: 56px;
+      left: 0;
+      bottom: 0;
+      z-index: 200;
+      transform: translateX(-100%);
+      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      width: 280px;
+      box-shadow: 4px 0 24px rgba(0,0,0,0.35);
+    }
+
+    #sidebar.open { transform: translateX(0); }
+
+    /* ── Main content fills full width ── */
+    #body-layout { overflow-x: hidden; }
+    #main-content { width: 100%; }
+
+    /* ── Section padding ── */
+    .content-section  { padding: 28px 16px; max-width: 100%; }
+    .section-divider  { margin: 0 16px; }
+    .site-footer      { padding: 24px 16px; }
+
+    /* ── Intro hero ── */
+    .intro-title  { font-size: 26px; }
+    .intro-desc   { font-size: 14px; }
+
+    /* ── Base URL box ── */
+    .base-url-box { min-width: unset; width: 100%; }
+    .bub-row      { flex-wrap: wrap; gap: 8px; }
+    .bub-row code { font-size: 11px; word-break: break-all; }
+
+    /* ── Stats ── */
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .stat-num   { font-size: 22px; }
+
+    /* ── Terminal ── */
+    .terminal-body { font-size: 11px; padding: 14px 16px; }
+
+    /* ── Endpoint path ── */
+    .ep-path  { font-size: 13px; }
+    .ep-title { font-size: 18px; }
+
+    /* ── Tables: horizontal scroll ── */
+    .params-section,
+    .response-fields { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .params-table,
+    .fields-table     { min-width: 480px; }
+
+    /* ── Tester inputs ── */
+    .inputs-row { grid-template-columns: 1fr; gap: 0; }
+
+    /* ── URL bar ── */
+    .url-display { font-size: 11px; }
+    .send-btn    { padding: 10px 14px; font-size: 12px; }
+
+    /* ── Status cards ── */
+    .status-grid { grid-template-columns: 1fr; }
+
+    /* ── Footer ── */
+    .site-footer p { font-size: 12px; }
+  }
+
+  /* ── Very small screens (≤ 380px) ── */
+  @media (max-width: 380px) {
+    .intro-title { font-size: 22px; }
+    .brand       { font-size: 14px; }
+    .api-pill    { display: none; }
+  }
+</style>
+
+<!-- ═══════════════════════════════ SCRIPT ═══════════════════════════════ -->
+<script define:vars={{ BASE_URL }}>
+  const BASE = BASE_URL;
+
+  // ── JSON Syntax Highlighter ──
+  function highlightJSON(json) {
+    if (typeof json !== 'string') json = JSON.stringify(json, null, 2);
+    return json
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(
+        /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
+        (match) => {
+          let cls = 'j-num';
+          if (/^"/.test(match)) {
+            cls = /:$/.test(match) ? 'j-key' : 'j-str';
+          } else if (/true|false/.test(match)) {
+            cls = 'j-bool';
+          } else if (/null/.test(match)) {
+            cls = 'j-null';
+          }
+          return `<span class="${cls}">${match}</span>`;
+        }
+      );
+  }
+
+  // ── API call helper ──
+  async function callAPI(endpointId, url) {
+    const panel = document.getElementById(`resp-${endpointId}`);
+    const statusEl = document.getElementById(`status-${endpointId}`);
+    const timeEl = document.getElementById(`time-${endpointId}`);
+    const bodyEl = document.getElementById(`body-${endpointId}`);
+    const loadingEl = document.getElementById(`loading-${endpointId}`);
+
+    panel.classList.remove('hidden');
+    loadingEl.classList.remove('hidden');
+    bodyEl.innerHTML = '';
+
+    const start = Date.now();
+    try {
+      const res = await fetch(url);
+      const elapsed = Date.now() - start;
+      const data = await res.json();
+
+      statusEl.textContent = `${res.status} ${res.statusText || (res.ok ? 'OK' : 'Error')}`;
+      statusEl.className = `resp-status ${res.ok ? 'ok' : 'err'}`;
+      timeEl.textContent = `${elapsed} ms`;
+      bodyEl.innerHTML = highlightJSON(data);
+    } catch (e) {
+      const elapsed = Date.now() - start;
+      statusEl.textContent = 'Error de red';
+      statusEl.className = 'resp-status err';
+      timeEl.textContent = `${elapsed} ms`;
+      bodyEl.textContent = e.message;
+    } finally {
+      loadingEl.classList.add('hidden');
+    }
+  }
+
+  // ── Update URL display live ──
+  function updateUrlDisplay(id, url) {
+    const el = document.getElementById(`url-${id}`);
+    if (el) el.textContent = url;
+  }
+
+  // ── Endpoint 1: GET /departamentos ──
+  document.querySelector('[data-endpoint="dep-list"]')?.addEventListener('click', () => {
+    callAPI('dep-list', `${BASE}/departamentos`);
+  });
+
+  // ── Endpoint 2: GET /departamentos/{code} ──
+  const depCodeInput = document.getElementById('input-dep-code');
+  depCodeInput?.addEventListener('input', () => {
+    const v = depCodeInput.value.trim() || '{code}';
+    updateUrlDisplay('dep-code', `${BASE}/departamentos/${v}`);
+  });
+
+  document.querySelector('[data-endpoint="dep-code"]')?.addEventListener('click', () => {
+    const code = depCodeInput?.value.trim();
+    if (!code) { depCodeInput?.focus(); return; }
+    callAPI('dep-code', `${BASE}/departamentos/${encodeURIComponent(code)}`);
+  });
+
+  // ── Endpoint 3: GET /provincias/{code} ──
+  const provCodeInput = document.getElementById('input-prov-code');
+  provCodeInput?.addEventListener('input', () => {
+    const v = provCodeInput.value.trim() || '{code}';
+    updateUrlDisplay('prov-code', `${BASE}/provincias/${v}`);
+  });
+
+  document.querySelector('[data-endpoint="prov-code"]')?.addEventListener('click', () => {
+    const code = provCodeInput?.value.trim();
+    if (!code) { provCodeInput?.focus(); return; }
+    callAPI('prov-code', `${BASE}/provincias/${encodeURIComponent(code)}`);
+  });
+
+  // ── Endpoint 4: GET /distritos/{code} ──
+  const distCodeInput = document.getElementById('input-dist-code');
+  distCodeInput?.addEventListener('input', () => {
+    const v = distCodeInput.value.trim() || '{code}';
+    updateUrlDisplay('dist-code', `${BASE}/distritos/${v}`);
+  });
+
+  document.querySelector('[data-endpoint="dist-code"]')?.addEventListener('click', () => {
+    const code = distCodeInput?.value.trim();
+    if (!code) { distCodeInput?.focus(); return; }
+    callAPI('dist-code', `${BASE}/distritos/${encodeURIComponent(code)}`);
+  });
+
+  // ── Endpoint 5: GET /buscar ──
+  const buscarQ = document.getElementById('input-buscar-q');
+  const buscarLimit = document.getElementById('input-buscar-limit');
+
+  function updateBuscarUrl() {
+    const q = buscarQ?.value.trim() || '{q}';
+    const limit = buscarLimit?.value.trim();
+    let url = `${BASE}/buscar?q=${q}`;
+    if (limit) url += `&limit=${limit}`;
+    updateUrlDisplay('buscar', url);
+  }
+
+  buscarQ?.addEventListener('input', updateBuscarUrl);
+  buscarLimit?.addEventListener('input', updateBuscarUrl);
+
+  document.querySelector('[data-endpoint="buscar"]')?.addEventListener('click', () => {
+    const q = buscarQ?.value.trim();
+    if (!q || q.length < 2) { buscarQ?.focus(); return; }
+    const limit = buscarLimit?.value.trim();
+    let url = `${BASE}/buscar?q=${encodeURIComponent(q)}`;
+    if (limit) url += `&limit=${encodeURIComponent(limit)}`;
+    callAPI('buscar', url);
+  });
+
+  // ── Copy buttons ──
+  document.querySelectorAll('[data-copy]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const text = btn.dataset.copy;
+      navigator.clipboard?.writeText(text).then(() => {
+        const orig = btn.innerHTML;
+        btn.textContent = '✓ Copiado';
+        setTimeout(() => { btn.innerHTML = orig; }, 1500);
+      });
+    });
+  });
+
+  document.querySelectorAll('.copy-resp-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.dataset.target;
+      const el = document.getElementById(targetId);
+      if (!el) return;
+      navigator.clipboard?.writeText(el.textContent).then(() => {
+        const orig = btn.textContent;
+        btn.textContent = '✓ Copiado';
+        setTimeout(() => { btn.textContent = orig; }, 1500);
+      });
+    });
+  });
+
+  // ── Sidebar active state (Intersection Observer) ──
+  const sections = document.querySelectorAll('[id]');
+  const navItems = document.querySelectorAll('.nav-item[data-section]');
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navItems.forEach(item => {
+            item.classList.toggle('active', item.dataset.section === entry.target.id);
+          });
+        }
+      });
+    },
+    { rootMargin: '-20% 0px -70% 0px', threshold: 0 }
+  );
+
+  sections.forEach(s => observer.observe(s));
+
+  // ── Smooth scroll for nav links ──
+  navItems.forEach(item => {
+    item.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetId = item.dataset.section;
+      const target = document.getElementById(targetId);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+      // Close sidebar on mobile after navigating
+      closeSidebar();
+    });
+  });
+
+  // ── Mobile sidebar toggle ──
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebar-overlay');
+  const menuToggle = document.getElementById('menu-toggle');
+
+  function openSidebar() {
+    sidebar?.classList.add('open');
+    overlay?.classList.add('visible');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeSidebar() {
+    sidebar?.classList.remove('open');
+    overlay?.classList.remove('visible');
+    document.body.style.overflow = '';
+  }
+
+  menuToggle?.addEventListener('click', () => {
+    sidebar?.classList.contains('open') ? closeSidebar() : openSidebar();
+  });
+
+  overlay?.addEventListener('click', closeSidebar);
+
+  // Close sidebar on resize to desktop width
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 768) closeSidebar();
+  });
+</script>
