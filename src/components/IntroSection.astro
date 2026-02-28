@@ -1,4 +1,7 @@
 ---
+import { Image } from 'astro:assets';
+import ubigeoLogo from '../assets/ubigeo_logo.svg';
+
 interface Props {
   baseUrl: string;
 }
@@ -10,8 +13,9 @@ const { baseUrl } = Astro.props;
     <span class="w-1.5 h-1.5 rounded-full bg-peru"></span>
     API REST · Gratuita · Sin autenticación
   </div>
-  <h1 class="text-[26px] md:text-4xl font-extrabold text-gray-900 m-0 mb-4 leading-tight tracking-tight">
-    Ubigeo <span class="text-peru">Perú</span> API
+  <h1 class="flex items-center gap-3 text-[26px] md:text-4xl font-extrabold text-gray-900 m-0 mb-4 leading-tight tracking-tight">
+    <Image src={ubigeoLogo} alt="Ubigeo logo" width={40} height={40} class="shrink-0" />
+    <span>Ubigeo <span class="text-peru">Perú</span> API</span>
   </h1>
   <p class="text-sm md:text-base leading-relaxed text-gray-500 m-0 mb-7 max-w-xl">
     Consulta la división político-administrativa del Perú en tiempo real.
