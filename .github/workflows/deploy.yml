@@ -15,7 +15,7 @@ jobs:
       - name: 🟢 Instalar Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # Usamos la v20 para estar al día
+          node-version: '22' # Node.js 22 LTS (activo hasta oct 2026)
 
       - name: 📦 Instalar dependencias
         run: npm install
