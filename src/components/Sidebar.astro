@@ -1,0 +1,84 @@
+---
+interface Props {
+  baseUrl: string;
+}
+const { baseUrl } = Astro.props;
+---
+
+<aside id="sidebar" class="w-[264px] shrink-0 bg-[#161618] border-r border-[#2A2A2E] overflow-y-auto flex flex-col">
+
+  <div class="px-4 pt-5 pb-4 border-b border-[#2A2A2E]">
+    <div class="text-[11px] font-semibold tracking-[0.08em] text-[#52525B] uppercase mb-1.5">Documentación</div>
+    <div class="font-mono text-[10px] text-[#52525B] break-all leading-snug">{baseUrl}</div>
+  </div>
+
+  <nav class="flex-1 py-3">
+    <div class="mb-1">
+      <div class="text-[10px] font-bold tracking-[0.1em] uppercase text-[#52525B] px-4 pt-2 pb-1">Inicio</div>
+      <a href="#intro" class="nav-item flex items-center gap-2 py-[7px] px-4 no-underline text-[#A1A1AA] text-[13px] border-l-2 border-transparent hover:bg-peru/12 hover:text-white transition-all cursor-pointer" data-section="intro">
+        <span class="w-1.5 h-1.5 rounded-full bg-[#3F3F46] shrink-0"></span>
+        Introducción
+      </a>
+      <a href="#response-codes" class="nav-item flex items-center gap-2 py-[7px] px-4 no-underline text-[#A1A1AA] text-[13px] border-l-2 border-transparent hover:bg-peru/12 hover:text-white transition-all cursor-pointer" data-section="response-codes">
+        <span class="w-1.5 h-1.5 rounded-full bg-[#3F3F46] shrink-0"></span>
+        Códigos de respuesta
+      </a>
+    </div>
+
+    <div class="mb-1">
+      <div class="text-[10px] font-bold tracking-[0.1em] uppercase text-[#52525B] px-4 pt-2 pb-1">Endpoints</div>
+
+      {[
+        { section: 'ep-departamentos', path: '/departamentos' },
+        { section: 'ep-departamento',  path: '/departamentos/{code}' },
+        { section: 'ep-provincia',     path: '/provincias/{code}' },
+        { section: 'ep-distrito',      path: '/distritos/{code}' },
+        { section: 'ep-buscar',        path: '/buscar' },
+      ].map(({ section, path }) => (
+        <a href={`#${section}`}
+           class="nav-item flex items-center gap-2 py-[7px] px-4 no-underline text-[#A1A1AA] text-[13px] border-l-2 border-transparent hover:bg-peru/12 hover:text-white transition-all cursor-pointer"
+           data-section={section}>
+          <span class="text-[9px] font-bold px-[5px] py-0.5 rounded-[3px] bg-emerald-900/50 text-emerald-400 shrink-0 tracking-[0.04em]">GET</span>
+          <span>{path}</span>
+        </a>
+      ))}
+    </div>
+  </nav>
+
+  <div class="p-4 border-t border-[#2A2A2E] flex items-center gap-2 text-[11px] text-[#52525B]">
+    <div class="flex w-5 h-[13px] rounded-[2px] overflow-hidden shrink-0">
+      <div class="flex-1 bg-peru"></div>
+      <div class="flex-1 bg-white"></div>
+      <div class="flex-1 bg-peru"></div>
+    </div>
+    <span>Perú · 2025</span>
+  </div>
+</aside>
+
+<style>
+  /* Drawer animation */
+  #sidebar { transition: transform 0.25s cubic-bezier(0.4,0,0.2,1); }
+
+  /* Mobile: sidebar como overlay deslizante */
+  @media (max-width: 767px) {
+    #sidebar {
+      position: fixed; top: 56px; left: 0; bottom: 0;
+      z-index: 200; width: 280px;
+      transform: translateX(-100%);
+      box-shadow: 4px 0 24px rgba(0,0,0,0.35);
+    }
+    #sidebar.open { transform: translateX(0); }
+  }
+
+  /* Active nav item (JS-toggled) */
+  .nav-item.active {
+    background: rgba(206,17,38,0.1);
+    color: #fff;
+    border-left-color: #F15A24;
+  }
+
+  /* Scrollbar */
+  #sidebar::-webkit-scrollbar { width: 6px; }
+  #sidebar::-webkit-scrollbar-track { background: transparent; }
+  #sidebar::-webkit-scrollbar-thumb { background: #2A2A2E; border-radius: 3px; }
+</style>

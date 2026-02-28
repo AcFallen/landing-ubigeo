@@ -1,0 +1,67 @@
+---
+interface Props {
+  baseUrl: string;
+}
+const { baseUrl } = Astro.props;
+---
+
+<section id="intro" class="px-4 py-8 md:px-8 md:py-10 lg:px-14 lg:py-12 max-w-[900px]">
+  <div class="flex items-center gap-2 text-xs font-semibold text-peru tracking-[0.04em] mb-4">
+    <span class="w-1.5 h-1.5 rounded-full bg-peru"></span>
+    API REST · Gratuita · Sin autenticación
+  </div>
+  <h1 class="text-[26px] md:text-4xl font-extrabold text-gray-900 m-0 mb-4 leading-tight tracking-tight">
+    Ubigeo <span class="text-peru">Perú</span> API
+  </h1>
+  <p class="text-sm md:text-base leading-relaxed text-gray-500 m-0 mb-7 max-w-xl">
+    Consulta la división político-administrativa del Perú en tiempo real.
+    Accede a los <strong class="text-gray-700">25 departamentos</strong>,
+    <strong class="text-gray-700">196 provincias</strong> y
+    <strong class="text-gray-700">1 874 distritos</strong> del país con una simple petición HTTP.
+  </p>
+
+  <!-- Base URL box -->
+  <div class="inline-flex flex-col gap-2.5 bg-gray-50 border border-gray-200 rounded-xl p-4 md:p-5 mb-7 w-full md:w-auto md:min-w-[460px]">
+    <span class="text-[11px] font-semibold uppercase tracking-[0.08em] text-gray-400">Base URL</span>
+    <div class="flex flex-wrap items-center gap-3">
+      <code class="font-mono text-[11px] md:text-[13px] text-gray-900 font-medium break-all">{baseUrl}</code>
+      <button class="flex items-center gap-1.5 px-2.5 py-[5px] bg-white border border-gray-200 rounded-md text-xs font-medium text-gray-500 hover:border-peru hover:text-peru transition-all cursor-pointer shrink-0" data-copy={baseUrl}>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+        Copiar
+      </button>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+    {[
+      { num: '25',    lbl: 'Departamentos' },
+      { num: '196',   lbl: 'Provincias' },
+      { num: '1 874', lbl: 'Distritos' },
+      { num: '0',     lbl: 'Auth requerida', red: true },
+    ].map(({ num, lbl, red }) => (
+      <div class="bg-gray-50 border border-gray-200 rounded-xl p-4 text-center">
+        <div class={`text-[22px] md:text-[28px] font-extrabold tracking-tight leading-none mb-1 ${red ? 'text-peru' : 'text-gray-900'}`}>{num}</div>
+        <div class="text-[11px] text-gray-400 font-medium">{lbl}</div>
+      </div>
+    ))}
+  </div>
+
+  <!-- Terminal example -->
+  <div>
+    <div class="text-[11px] font-semibold uppercase tracking-[0.06em] text-gray-400 mb-2">Ejemplo rápido</div>
+    <div class="rounded-xl overflow-hidden border border-[#30363D]">
+      <div class="flex items-center gap-1.5 px-4 py-2.5 bg-[#21262D] border-b border-[#30363D]">
+        <span class="w-3 h-3 rounded-full bg-[#FF5F57]"></span>
+        <span class="w-3 h-3 rounded-full bg-[#FEBC2E]"></span>
+        <span class="w-3 h-3 rounded-full bg-[#28C840]"></span>
+        <span class="font-mono text-[11px] text-[#8B949E] ml-auto">bash</span>
+      </div>
+      <pre class="bg-[#0D1117] m-0 px-5 md:px-6 py-5 font-mono text-[11px] md:text-[13px] leading-relaxed text-[#E6EDF3] overflow-x-auto"><code><span class="text-[#8B949E]"># Obtener todos los departamentos</span>
+curl <span class="text-[#A5D6FF]">"{baseUrl}/departamentos"</span>
+
+<span class="text-[#8B949E]"># Buscar por nombre</span>
+curl <span class="text-[#A5D6FF]">"{baseUrl}/buscar?q=miraflores"</span></code></pre>
+    </div>
+  </div>
+</section>
