@@ -1,0 +1,37 @@
+name: Despliegue de Astro a AWS
+
+on:
+  push:
+    branches:
+      - master # Cambia a 'master' si ese es el nombre de tu rama principal
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Descargar código
+        uses: actions/checkout@v4
+
+      - name: 🟢 Instalar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Usamos la v20 para estar al día
+
+      - name: 📦 Instalar dependencias
+        run: npm install
+
+      - name: 🛠️ Construir el proyecto (Astro)
+        run: npm run build
+
+      - name: ☁️ Configurar credenciales de AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: 🚀 Subir a S3 (y borrar archivos viejos)
+        run: aws s3 sync dist/ s3://ubigeo.org.pe --delete
+
+      - name: 🧹 Limpiar caché de CloudFront
+        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DIST_ID }} --paths "/*"
